@@ -11,7 +11,7 @@ through Fridays before 4 pm EST by CDC.
 
 https://www.cdc.gov/coronavirus/2019-ncov/cases-in-us.html
 
-**NOTE: Cache this data, DO NOT run it continuesly causing issues for CDC.**
+**NOTE: Cache this data, DO NOT run it continuously causing issues for CDC.**
 
 
 ## Install

@@ -15,3 +15,4 @@ describe('Covid19DeathsUS class', function () {
         });
     });
 });
+//# sourceMappingURL=covid19-deaths-us.js.map

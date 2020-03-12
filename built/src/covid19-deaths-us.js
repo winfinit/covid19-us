@@ -51,3 +51,4 @@ var Covid19DeathsUS = /** @class */ (function () {
     return Covid19DeathsUS;
 }());
 exports.Covid19DeathsUS = Covid19DeathsUS;
+//# sourceMappingURL=covid19-deaths-us.js.map

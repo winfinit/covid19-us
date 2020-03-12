@@ -39,12 +39,11 @@ var Covid19MapCasesUS = /** @class */ (function () {
         if (casesReported === "None") {
             casesCount = 0;
         }
-        else if (isNaN(parseInt(casesReported))) {
-            var casesRange = casesReported.match(/"(\d*) to (\d*)"/);
+        else if (RegExp("\d* to \d*").test(casesReported)) {
+            var casesRange = casesReported.match(/(\d*) to (\d*)/);
             var maxCases = 0;
             var minCases = 0;
             if (casesRange) {
-                console.log("RJ casesRange", casesRange);
                 minCases = parseInt(casesRange[1]);
                 maxCases = parseInt(casesRange[2]);
                 // setting cases to max cases
@@ -55,11 +54,8 @@ var Covid19MapCasesUS = /** @class */ (function () {
                 this.debug("unable to get cases range", casesReported);
             }
         }
-        else if (!isNaN(parseInt(casesReported))) {
-            casesCount = parseInt(casesReported);
-        }
         else {
-            throw new Error("Unable to parse reported cases " + JSON.stringify(casesReported));
+            casesCount = parseInt(casesReported);
         }
         return casesCount;
     };
@@ -101,3 +97,4 @@ var Covid19MapCasesUS = /** @class */ (function () {
     return Covid19MapCasesUS;
 }());
 exports.Covid19MapCasesUS = Covid19MapCasesUS;
+//# sourceMappingURL=covid19-map-cases-us.js.map

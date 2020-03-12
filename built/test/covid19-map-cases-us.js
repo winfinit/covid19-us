@@ -30,3 +30,4 @@ describe('Covid19MapCasesUS class', function () {
         });
     });
 });
+//# sourceMappingURL=covid19-map-cases-us.js.map

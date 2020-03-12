@@ -52,12 +52,11 @@ export class Covid19MapCasesUS {
         let casesCount: number = 0;
         if ( casesReported === "None" ) {
             casesCount = 0;
-        } else if (isNaN(parseInt(casesReported)) ) {
-            let casesRange = casesReported.match(/"(\d*) to (\d*)"/);
+        } else if ( RegExp("\d* to \d*").test(casesReported) ) {
+            let casesRange = casesReported.match(/(\d*) to (\d*)/);
             let maxCases: number = 0;
             let minCases: number = 0;
             if ( casesRange ) {
-                console.log("RJ casesRange", casesRange);
                 minCases = parseInt(casesRange[1]);
                 maxCases = parseInt(casesRange[2]);
                 // setting cases to max cases
@@ -67,10 +66,8 @@ export class Covid19MapCasesUS {
                 this.debug("unable to get cases range", casesReported);
             }
             
-        } else if (!isNaN(parseInt(casesReported))) { 
-            casesCount = parseInt(casesReported);
         } else {
-            throw new Error("Unable to parse reported cases " + JSON.stringify(casesReported));
+            casesCount = parseInt(casesReported);
         }
         return casesCount;
     }

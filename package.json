@@ -1,10 +1,11 @@
 {
   "name": "covid19-us",
   "version": "1.0.0",
-  "description": "covid-19 US data extractor",
+  "description": "covid-19 CDC US data extractor",
   "main": "built/src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive built/test/",
+    "clean-build": "rm -Rf built/ && tsc"
   },
   "repository": {
     "type": "git",
@@ -12,7 +13,9 @@
   },
   "keywords": [
     "covid19",
-    "coronavirus"
+    "coronavirus",
+    "cdc",
+    "novel coronavirus"
   ],
   "author": "Roman Jurkov",
   "license": "ISC",

@@ -1,6 +1,6 @@
 {
   "name": "covid19-us",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "covid-19 CDC US data extractor",
   "main": "built/src/index.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "url": "git+https://github.com/winfinit/covid19-us.git"
   },
   "keywords": [
+    "covid-19",
     "covid19",
     "coronavirus",
     "cdc",

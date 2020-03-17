@@ -1,6 +1,6 @@
 {
   "name": "covid19-us",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "covid-19 CDC US data extractor",
   "main": "built/src/index.js",
   "scripts": {
@@ -31,6 +31,7 @@
   "dependencies": {
     "@types/mocha": "^7.0.2",
     "chai": "^4.2.0",
+    "csvtojson": "^2.0.10",
     "debug": "^4.1.1",
     "states-utils": "^1.0.10"
   }

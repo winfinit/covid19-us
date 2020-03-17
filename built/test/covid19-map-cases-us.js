@@ -11,7 +11,7 @@ describe('Covid19MapCasesUS class', function () {
         var covid19MapCasesUS = new covid19_map_cases_us_js_1.Covid19MapCasesUS();
         covid19MapCasesUS.getCDCMapCases().then(function (cdcData) {
             //console.log(cdcData);
-            expect(cdcData).to.be.an("object");
+            expect(cdcData).to.be.an("array");
         });
     });
     it('should return true when range is provided', function () {

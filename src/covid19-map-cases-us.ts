@@ -1,11 +1,13 @@
 const Debug: any = require('debug');
 const StateUtils: any = require('states-utils');
+const csvtojson: any = require("csvtojson");
 
 import https from 'https';
 
 export interface ICovid19MapCases {
-    data: {Name: string, Range: string, "Cases Reported": string}[];
-    dataTable: {Title: string};
+    Name: string, 
+    Range: string, 
+    "Cases Reported": string
 }
 
 export interface ICovid19MapCasesRow {
@@ -17,6 +19,7 @@ export interface ICovid19MapCasesRow {
 
 export class Covid19MapCasesUS {
     MAP_CASES_URI: string = "https://www.cdc.gov/coronavirus/2019-ncov/map-cases-us.json";
+    MAP_CASES_CSV_URI: string = "https://www.cdc.gov/coronavirus/2019-ncov/map-data-cases.csv";
     debug: any;
     
     constructor() {
@@ -27,25 +30,31 @@ export class Covid19MapCasesUS {
         return this.MAP_CASES_URI;
     }
     
-    getCDCMapCases(): Promise<ICovid19MapCases> {
+    getCSVURI(): string {
+        return this.MAP_CASES_CSV_URI;
+    }
+
+    getCDCMapCases(): Promise<ICovid19MapCases[]> {
         
-        return new Promise<ICovid19MapCases>((resolve, reject) => {
-            https.get(this.getURI(), (res) => {
+        return new Promise<ICovid19MapCases[]>((resolve, reject) => {
+            https.get(this.getCSVURI(), (res) => {
                 let body: string = "";
                 this.debug("status code", res.statusCode);
                 res.on("data", (data) => {
                     body += data;
                 })
                 res.on("end", () => {
-                    let cdcData: ICovid19MapCases = JSON.parse(body);
-                    this.debug("Body response", cdcData);
-                    resolve(cdcData);
+                    csvtojson().fromString(body).then((cdcRawData: ICovid19MapCases[]) => {
+                         this.debug("Body response", cdcRawData);
+                        resolve(cdcRawData);
+                    });
                 });
             }).on('error', (e) => {
                 console.error(e);
                 reject(e);
             });
         });
+
     }
     
     correctCasesReportedCaseCount(casesReported: string): number {
@@ -80,9 +89,9 @@ export class Covid19MapCasesUS {
         }
     }
     
-    formatCDCMapCasesData(rawCDCData: ICovid19MapCases): ICovid19MapCasesRow[] {
+    formatCDCMapCasesData(rawCDCData: ICovid19MapCases[]): ICovid19MapCasesRow[] {
         let covid19MapCasesData: ICovid19MapCasesRow[] = [];
-        rawCDCData.data.forEach((record) => {
+        rawCDCData.forEach((record) => {
             // if it is not a US state, skipping it.
             if (!StateUtils.getUSPSCode(record.Name)) {
                 return;
@@ -102,7 +111,7 @@ export class Covid19MapCasesUS {
     
     getCDCMapCasesData(): Promise<ICovid19MapCasesRow[]> {
         return new Promise<ICovid19MapCasesRow[]>((resolve, reject) => {
-            this.getCDCMapCases().then((cdcData: ICovid19MapCases) => {
+            this.getCDCMapCases().then((cdcData: ICovid19MapCases[]) => {
                 
                 resolve(this.formatCDCMapCasesData(cdcData));
             })

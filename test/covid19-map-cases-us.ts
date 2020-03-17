@@ -13,9 +13,9 @@ describe('Covid19MapCasesUS class', function() {
     
     it('should return raw death cases', function(){
         let covid19MapCasesUS = new Covid19MapCasesUS();
-        covid19MapCasesUS.getCDCMapCases().then((cdcData: ICovid19MapCases) => {
+        covid19MapCasesUS.getCDCMapCases().then((cdcData: ICovid19MapCases[]) => {
             //console.log(cdcData);
-            expect(cdcData).to.be.an("object");
+            expect(cdcData).to.be.an("array");
         });        
         
     });

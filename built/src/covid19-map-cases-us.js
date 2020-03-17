@@ -5,28 +5,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Debug = require('debug');
 var StateUtils = require('states-utils');
+var csvtojson = require("csvtojson");
 var https_1 = __importDefault(require("https"));
 var Covid19MapCasesUS = /** @class */ (function () {
     function Covid19MapCasesUS() {
         this.MAP_CASES_URI = "https://www.cdc.gov/coronavirus/2019-ncov/map-cases-us.json";
+        this.MAP_CASES_CSV_URI = "https://www.cdc.gov/coronavirus/2019-ncov/map-data-cases.csv";
         this.debug = Debug("Covid19MapCasesUS");
     }
     Covid19MapCasesUS.prototype.getURI = function () {
         return this.MAP_CASES_URI;
     };
+    Covid19MapCasesUS.prototype.getCSVURI = function () {
+        return this.MAP_CASES_CSV_URI;
+    };
     Covid19MapCasesUS.prototype.getCDCMapCases = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            https_1.default.get(_this.getURI(), function (res) {
+            https_1.default.get(_this.getCSVURI(), function (res) {
                 var body = "";
                 _this.debug("status code", res.statusCode);
                 res.on("data", function (data) {
                     body += data;
                 });
                 res.on("end", function () {
-                    var cdcData = JSON.parse(body);
-                    _this.debug("Body response", cdcData);
-                    resolve(cdcData);
+                    csvtojson().fromString(body).then(function (cdcRawData) {
+                        _this.debug("Body response", cdcRawData);
+                        resolve(cdcRawData);
+                    });
                 });
             }).on('error', function (e) {
                 console.error(e);
@@ -70,7 +76,7 @@ var Covid19MapCasesUS = /** @class */ (function () {
     Covid19MapCasesUS.prototype.formatCDCMapCasesData = function (rawCDCData) {
         var _this = this;
         var covid19MapCasesData = [];
-        rawCDCData.data.forEach(function (record) {
+        rawCDCData.forEach(function (record) {
             // if it is not a US state, skipping it.
             if (!StateUtils.getUSPSCode(record.Name)) {
                 return;

@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/winfinit/covid19-us#readme",
   "devDependencies": {
-    "mocha": "^7.1.0",
+    "mocha": "^10.2.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
